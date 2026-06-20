@@ -3,339 +3,376 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TheTypedTarot — Enneagram Spreads</title>
+<title>TheTypedTarot &mdash; Enneagram Spreads</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-  :root {
-    --parchment:   #E3DFD0;
-    --parchment-lt:#F5F0EB;
-    --parchment-xl:#FBF7F2;
-    --ink:         #2C2621;
-    --ink-mid:     #6A5848;
-    --moss:        #5B6655;
-    --amber:       #C28A46;
-    --amber-lt:    rgba(194,138,70,0.18);
-    --cedar:       #6A5848;
-  }
+:root {
+  --parchment:    #E3DFD0;
+  --parchment-lt: #F5F0EB;
+  --parchment-xl: #FBF7F2;
+  --ink:          #2C2621;
+  --ink-mid:      #6A5848;
+  --moss:         #5B6655;
+  --amber:        #C28A46;
+  --amber-lt:     rgba(194, 138, 70, 0.18);
+}
 
-  html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+}
 
-  body {
-    background: var(--parchment);
-    color: var(--ink);
-    font-family: 'Lora', serif;
-    min-height: 100vh;
-  }
+body {
+  background-color: #E3DFD0;
+  color: #2C2621;
+  font-family: 'Lora', serif;
+  min-height: 100vh;
+}
 
-  /* ── HEADER ── */
-  .site-header {
-    text-align: center;
-    padding: 3rem 1.5rem 2rem;
-    border-bottom: 1px solid rgba(194,138,70,0.25);
-    position: relative;
-  }
+/* HEADER */
+.site-header {
+  text-align: center;
+  padding: 3rem 1.5rem 2rem;
+  border-bottom: 1px solid rgba(194, 138, 70, 0.25);
+}
 
-  .site-header::after {
-    content: '';
-    display: block;
-    width: 60px;
-    height: 1px;
-    background: var(--amber);
-    margin: 0 auto;
-    opacity: 0.4;
-  }
+.brand-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 300;
+  letter-spacing: 0.12em;
+  color: #2C2621;
+  line-height: 1;
+  margin-bottom: 0.4rem;
+}
 
-  .brand-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2rem, 5vw, 3.2rem);
-    font-weight: 300;
-    letter-spacing: 0.12em;
-    color: var(--ink);
-    line-height: 1;
-    margin-bottom: 0.4rem;
-  }
+.brand-tagline {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  color: #C28A46;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+}
 
-  .brand-tagline {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: clamp(0.9rem, 2vw, 1.1rem);
-    color: var(--amber);
-    letter-spacing: 0.05em;
-    margin-bottom: 1rem;
-  }
+.rule {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 280px;
+  margin: 0 auto 1rem;
+}
 
-  .rule {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    max-width: 280px;
-    margin: 0 auto 1rem;
-  }
-  .rule-line { flex: 1; height: 1px; background: var(--amber); opacity: 0.35; }
-  .rule-gem  { color: var(--amber); font-size: 0.55rem; }
+.rule-line {
+  flex: 1;
+  height: 1px;
+  background-color: #C28A46;
+  opacity: 0.35;
+}
 
-  .page-heading {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(0.9rem, 2vw, 1.1rem);
-    font-weight: 400;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--moss);
-    margin-bottom: 0.3rem;
-  }
+.rule-gem {
+  color: #C28A46;
+  font-size: 0.6rem;
+}
 
-  .page-sub {
-    font-size: 0.8rem;
-    color: var(--ink-mid);
-    font-style: italic;
-  }
+.page-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #5B6655;
+  margin-bottom: 0.3rem;
+}
 
-  /* ── NAV ── */
-  .type-nav {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 7px;
-    padding: 1.5rem 1.5rem 0;
-    max-width: 860px;
-    margin: 0 auto;
-  }
+.page-sub {
+  font-size: 0.8rem;
+  color: #6A5848;
+  font-style: italic;
+}
 
-  .nav-btn {
-    font-family: 'Lora', serif;
-    font-size: 0.72rem;
-    letter-spacing: 0.08em;
-    padding: 6px 15px;
-    border: 1px solid rgba(194,138,70,0.45);
-    background: transparent;
-    color: var(--ink-mid);
-    cursor: pointer;
-    transition: all 0.18s ease;
-    border-radius: 2px;
-    white-space: nowrap;
-  }
-  .nav-btn:hover  { background: var(--amber-lt); color: var(--ink); border-color: var(--amber); }
-  .nav-btn.active { background: var(--moss); color: var(--parchment-lt); border-color: var(--moss); }
+/* NAV */
+.type-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 7px;
+  padding: 1.5rem 1.5rem 0;
+  max-width: 900px;
+  margin: 0 auto;
+}
 
-  /* ── MAIN LAYOUT ── */
-  .main {
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 2rem 1.5rem 4rem;
-  }
+.nav-btn {
+  font-family: 'Lora', serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  padding: 6px 15px;
+  border: 1px solid rgba(194, 138, 70, 0.45);
+  background-color: transparent;
+  color: #6A5848;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 2px;
+  transition: background-color 0.18s, color 0.18s, border-color 0.18s;
+  white-space: nowrap;
+  display: inline-block;
+}
 
-  /* ── SPREAD PANEL ── */
-  .spread { display: none; }
-  .spread.active { display: block; }
+.nav-btn:hover {
+  background-color: rgba(194, 138, 70, 0.18);
+  color: #2C2621;
+  border-color: #C28A46;
+}
 
-  .spread-header {
-    background: var(--parchment-lt);
-    border: 1px solid rgba(194,138,70,0.28);
-    border-top: 3px solid var(--moss);
-    border-radius: 3px;
-    padding: 1.75rem 2rem 1.5rem;
-    margin-bottom: 1.25rem;
-    position: relative;
-    overflow: hidden;
-  }
+.nav-btn.active {
+  background-color: #5B6655;
+  color: #F5F0EB;
+  border-color: #5B6655;
+}
 
-  .spread-header::before {
-    content: '✦';
-    position: absolute;
-    bottom: 14px; right: 18px;
-    color: rgba(194,138,70,0.15);
-    font-size: 2rem;
-    line-height: 1;
-  }
+/* MAIN */
+.main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
 
-  .type-badge {
-    font-size: 0.6rem;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--amber);
-    margin-bottom: 4px;
-  }
+/* SPREAD SECTIONS */
+.spread-header {
+  background-color: #F5F0EB;
+  border: 1px solid rgba(194, 138, 70, 0.28);
+  border-top: 3px solid #5B6655;
+  border-radius: 3px;
+  padding: 1.75rem 2rem 1.5rem;
+  margin-bottom: 1.25rem;
+}
 
-  .type-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.6rem, 4vw, 2.2rem);
-    font-weight: 300;
-    color: var(--ink);
-    line-height: 1.1;
-  }
+.type-badge {
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #C28A46;
+  margin-bottom: 4px;
+}
 
-  .spread-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: 1rem;
-    color: var(--amber);
-    margin: 4px 0 12px;
-  }
+.type-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  font-weight: 300;
+  color: #2C2621;
+  line-height: 1.1;
+}
 
-  .essence {
-    font-size: 0.83rem;
-    color: var(--ink-mid);
-    line-height: 1.8;
-    font-style: italic;
-    max-width: 600px;
-  }
+.spread-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: #C28A46;
+  margin: 4px 0 12px;
+}
 
-  /* ── CARDS SECTION ── */
-  .cards-label {
-    font-size: 0.6rem;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--moss);
-    text-align: center;
-    margin: 0 0 0.9rem;
-  }
+.essence {
+  font-size: 0.83rem;
+  color: #6A5848;
+  line-height: 1.8;
+  font-style: italic;
+  max-width: 600px;
+}
 
+/* CARDS */
+.cards-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #5B6655;
+  text-align: center;
+  margin: 0 0 0.9rem;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 1.25rem;
+}
+
+@media (max-width: 580px) {
   .cards-grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0,1fr));
-    gap: 12px;
-    margin-bottom: 1.25rem;
+    grid-template-columns: repeat(2, 1fr);
   }
+}
 
-  @media (max-width: 580px) {
-    .cards-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
-  }
+.tarot-card {
+  background-color: #F5F0EB;
+  border: 1px solid rgba(194, 138, 70, 0.3);
+  border-radius: 3px;
+  padding: 1.1rem 0.8rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.18s, background-color 0.18s;
+  user-select: none;
+}
 
-  .tarot-card {
-    background: var(--parchment-lt);
-    border: 1px solid rgba(194,138,70,0.3);
-    border-radius: 3px;
-    padding: 1.1rem 0.8rem;
-    text-align: center;
-    cursor: pointer;
-    transition: border-color 0.18s, background 0.18s, transform 0.15s;
-    user-select: none;
-  }
-  .tarot-card:hover       { border-color: var(--amber); background: var(--parchment-xl); }
-  .tarot-card:active      { transform: scale(0.97); }
-  .tarot-card.revealed    { background: var(--moss); border-color: var(--moss); }
+.tarot-card:hover {
+  border-color: #C28A46;
+  background-color: #FBF7F2;
+}
 
-  .card-roman {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.25rem;
-    font-weight: 300;
-    color: var(--amber);
-    line-height: 1;
-    margin-bottom: 7px;
-    transition: color 0.18s;
-  }
-  .tarot-card.revealed .card-roman { color: rgba(227,223,208,0.55); }
+.tarot-card.revealed {
+  background-color: #5B6655;
+  border-color: #5B6655;
+}
 
-  .card-position {
-    font-size: 0.62rem;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--moss);
-    margin-bottom: 9px;
-    line-height: 1.3;
-    transition: color 0.18s;
-  }
-  .tarot-card.revealed .card-position { color: rgba(227,223,208,0.75); }
+.card-roman {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.25rem;
+  font-weight: 300;
+  color: #C28A46;
+  line-height: 1;
+  margin-bottom: 7px;
+}
 
-  .card-question {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: 0.9rem;
-    color: var(--ink);
-    line-height: 1.55;
-    transition: color 0.18s;
-    min-height: 3.5em;
-  }
-  .tarot-card.revealed .card-question { color: var(--parchment); }
+.tarot-card.revealed .card-roman {
+  color: rgba(227, 223, 208, 0.55);
+}
 
-  .card-prompt {
-    font-size: 0.6rem;
-    color: rgba(194,138,70,0.5);
-    margin-top: 8px;
-    letter-spacing: 0.06em;
-    transition: opacity 0.18s;
-  }
-  .tarot-card.revealed .card-prompt { opacity: 0; }
+.card-position {
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #5B6655;
+  margin-bottom: 9px;
+  line-height: 1.3;
+}
 
-  /* ── INTENTION ── */
-  .intention {
-    background: var(--parchment);
-    border-left: 2px solid var(--amber);
-    padding: 1rem 1.25rem;
-    border-radius: 0 3px 3px 0;
-  }
+.tarot-card.revealed .card-position {
+  color: rgba(227, 223, 208, 0.75);
+}
 
-  .intention-label {
-    font-size: 0.58rem;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--amber);
-    margin-bottom: 5px;
-  }
+.card-front {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.85rem;
+  color: rgba(106, 88, 72, 0.5);
+  letter-spacing: 0.04em;
+  min-height: 3.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  .intention-text {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: 1rem;
-    color: var(--ink);
-    line-height: 1.7;
-  }
+.card-back {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: #E3DFD0;
+  line-height: 1.55;
+  min-height: 3.5em;
+  display: none;
+}
 
-  /* ── FOOTER NAV ── */
-  .footer-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 1.5rem;
-    padding-top: 1rem;
-    border-top: 1px solid rgba(194,138,70,0.18);
-  }
+.tarot-card.revealed .card-front {
+  display: none;
+}
 
-  .arrow-btn {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: 0.9rem;
-    color: var(--moss);
-    background: none;
-    border: none;
-    cursor: pointer;
-    transition: color 0.18s;
-    padding: 4px 0;
-    min-width: 80px;
-  }
-  .arrow-btn:hover    { color: var(--amber); }
-  .arrow-btn:disabled { opacity: 0.2; cursor: default; }
-  .arrow-btn.right    { text-align: right; }
+.tarot-card.revealed .card-back {
+  display: block;
+}
 
-  .reset-btn {
-    font-family: 'Lora', serif;
-    font-size: 0.68rem;
-    letter-spacing: 0.08em;
-    color: rgba(194,138,70,0.65);
-    background: none;
-    border: 1px solid rgba(194,138,70,0.3);
-    padding: 5px 14px;
-    border-radius: 2px;
-    cursor: pointer;
-    transition: all 0.18s;
-  }
-  .reset-btn:hover { color: var(--amber); border-color: var(--amber); }
+/* INTENTION */
+.intention {
+  background-color: #E3DFD0;
+  border-left: 2px solid #C28A46;
+  padding: 1rem 1.25rem;
+  border-radius: 0 3px 3px 0;
+  margin-bottom: 1.5rem;
+}
 
-  /* ── FOOTER ── */
-  .site-footer {
-    text-align: center;
-    padding: 1.5rem;
-    border-top: 1px solid rgba(194,138,70,0.18);
-    font-size: 0.72rem;
-    color: rgba(106,88,72,0.5);
-    font-style: italic;
-    letter-spacing: 0.05em;
-  }
+.intention-label {
+  font-size: 0.58rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #C28A46;
+  margin-bottom: 5px;
+}
+
+.intention-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: #2C2621;
+  line-height: 1.7;
+}
+
+/* FOOTER NAV */
+.footer-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(194, 138, 70, 0.18);
+}
+
+.arrow-btn {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: #5B6655;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  padding: 4px 0;
+  min-width: 80px;
+  transition: color 0.18s;
+  display: inline-block;
+}
+
+.arrow-btn:hover {
+  color: #C28A46;
+}
+
+.arrow-btn.disabled {
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.reset-btn {
+  font-family: 'Lora', serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: rgba(194, 138, 70, 0.65);
+  background: none;
+  border: 1px solid rgba(194, 138, 70, 0.3);
+  padding: 5px 14px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: color 0.18s, border-color 0.18s;
+}
+
+.reset-btn:hover {
+  color: #C28A46;
+  border-color: #C28A46;
+}
+
+/* SITE FOOTER */
+.site-footer {
+  text-align: center;
+  padding: 1.5rem;
+  border-top: 1px solid rgba(194, 138, 70, 0.18);
+  font-size: 0.72rem;
+  color: rgba(106, 88, 72, 0.5);
+  font-style: italic;
+  letter-spacing: 0.05em;
+}
 </style>
 </head>
 <body>
@@ -343,208 +380,513 @@
 <header class="site-header">
   <div class="brand-name">TheTypedTarot</div>
   <div class="brand-tagline">Where personality meets prophecy</div>
-  <div class="rule"><div class="rule-line"></div><div class="rule-gem">✦</div><div class="rule-line"></div></div>
+  <div class="rule">
+    <div class="rule-line"></div>
+    <div class="rule-gem">&#10022;</div>
+    <div class="rule-line"></div>
+  </div>
   <div class="page-heading">Enneagram Tarot Spreads</div>
   <div class="page-sub">A signature 4-card spread for each of the nine types</div>
 </header>
 
-<nav class="type-nav" aria-label="Enneagram types" id="typeNav"></nav>
+<nav class="type-nav" aria-label="Enneagram types">
+    <a href="#spread-0" class="nav-btn" class="active">Type 1 &middot; The Reformer</a>
+    <a href="#spread-1" class="nav-btn">Type 2 &middot; The Helper</a>
+    <a href="#spread-2" class="nav-btn">Type 3 &middot; The Achiever</a>
+    <a href="#spread-3" class="nav-btn">Type 4 &middot; The Individualist</a>
+    <a href="#spread-4" class="nav-btn">Type 5 &middot; The Investigator</a>
+    <a href="#spread-5" class="nav-btn">Type 6 &middot; The Loyalist</a>
+    <a href="#spread-6" class="nav-btn">Type 7 &middot; The Enthusiast</a>
+    <a href="#spread-7" class="nav-btn">Type 8 &middot; The Challenger</a>
+    <a href="#spread-8" class="nav-btn">Type 9 &middot; The Peacemaker</a>
+</nav>
 
-<main class="main" id="main"></main>
+<main class="main">
 
-<footer class="site-footer">TheTypedTarot &nbsp;✦&nbsp; Where personality meets prophecy</footer>
+  <section class="spread" id="spread-0">
+    <div class="spread-header">
+      <div class="type-badge">Enneagram Type 1</div>
+      <div class="type-name">The Reformer</div>
+      <div class="spread-name">The Spread of Sacred Standards</div>
+      <p class="essence">For the one who holds the world to a higher standard — and quietly holds herself to an even higher one. This spread invites release of the inner critic and trust in the wisdom of imperfection.</p>
+    </div>
+
+    <p class="cards-label">&#10022; Tap each card to reveal the question &#10022;</p>
+
+    <div class="cards-grid">
+        <div class="tarot-card" onclick="this.classList.toggle('revealed')">
+          <div class="card-roman">I</div>
+          <div class="card-position">The Standard</div>
+          <div class="card-front">&#10022; Touch to reveal</div>
+          <div class="card-back">Where am I holding myself to an impossible ideal, and what truth lives beneath that pressure?</div>
+        </div>
+        <div class="tarot-card" onclick="this.classList.toggle('revealed')">
+          <div class="card-roman">II</div>
+          <div class="card-position">The Critic</div>
+          <div class="card-front">&#10022; Touch to reveal</div>
+          <div class="card-back">What is my inner critic trying to protect me from — and is that protection still serving me?</div>
+        </div>
+        <div class="tarot-card" onclick="this.classList.toggle('revealed')">
+          <div class="card-roman">III</div>
+          <div class="card-position">The Reform</div>
+          <div class="card-front">&#10022; Touch to reveal</div>
+          <div class="card-back">Where in my life is growth asking me to soften rather than straighten?</div>
+        </div>
+        <div class="tarot-card" onclick="this.classList.toggle('revealed')">
+          <div class="card-roman">IV</div>
+          <div class="card-position">The Grace</div>
+          <div class="card-front">&#10022; Touch to reveal</div>
+          <div class="card-back">What would I allow myself if I truly believed I was already enough?</div>
+        </div>
+    </div>
+
+    <div class="intention">
+      <div class="intention-label">&#10022; Spread Intention</div>
+      <p class="intention-text">May I release the grip of perfection and remember that goodness lives in the becoming, not only the being done.</p>
+    </div>
+
+    <div class="footer-nav">
+      <span class="arrow-btn disabled"></span>
+      <button class="reset-btn" onclick="resetCards(this)">Reset cards</button>
+      <a href="#spread-1" class="arrow-btn">Type 2 &rarr;</a>
+    </div>
+  </section>
+
+  <section class="spread" id="spread-1" style="display:none">
+    <div class="spread-header">
+      <div class="type-badge">Enneagram Type 2</div>
+      <div class="type-name">The Helper</div>
+      <div class="spread-name">The Spread of the Giving Heart</div>
+      <p class="essence">For the one who pours endlessly from her cup, often forgetting to refill it. This spread calls her back to herself — her needs, her wants, her worth beyond what she gives.</p>
+    </div>
+
+    <p class="cards-label">&#10022; Tap each card to reveal the question &#10022;</p>
+
+    <div class="cards-grid">
+        <div class="tarot-card" onclick="this.classList.toggle('revealed')">
+          <div class="card-roman">I</div>
+          <div class="card-position">The Gift</div>
+          <div class="card-front">&#10022; Touch to reveal</div>
+          <div class="card-back">What am I giving from love — and what am I giving from fear of not being loved?</div>
+        </div>
+        <div class="tarot-card" onclick="this.classList.toggle('revealed')">
+          <div class="card-roman">II</div>
+          <div class="card-position">The Hidden Need</div>
+          <div class="card-front">&#10022; Touch to reveal</div>
+          <div class="card-back">What do I most need right now that I haven't allowed myself to ask for?</div>
+        </div>
+        <div class="tarot-card" onclick="this.classList.toggle('revealed')">
+          <div class="card-roman">III</div>
+          <div class="card-position">The Boundary</div>
+          <div class="card-front">&#10022; Touch to reveal</div>
+          <div class="card-back">Where is Spirit inviting me to receive instead of give?</div>
+        </div>
+        <div class="tarot-card" onclick="this.classList.toggle('revealed')">
+          <div class="card-roman">IV</div>
+          <div class="card-position">The Worth</div>
+          <div class="card-front">&#10022; Touch to reveal</div>
+          <div class="card-back">What would I know about my own value if I stopped measuring it through others?</div>
+        </div>
+    </div>
+
+    <div class="intention">
+      <div class="intention-label">&#10022; Spread Intention</div>
+      <p class="intention-text">May I turn my loving hands toward myself, trusting that my needs are not a burden but a birthright.</p>
+    </div>
+
+    <div class="footer-nav">
+      <a href="#spread-0" class="arrow-btn">&larr; Type 1</a>
+      <button class="reset-btn" onclick="resetCards(this)">Reset cards</button>
+      <a href="#spread-2" class="arrow-btn">Type 3 &rarr;</a>
+    </div>
+  </section>
+
+  <section class="spread" id="spread-2" style="display:none">
+    <div class="spread-header">
+      <div class="type-badge">Enneagram Type 3</div>
+      <div class="type-name">The Achiever</div>
+      <div class="spread-name">The Spread of the Authentic Self</div>
+      <p class="essence">For the one who has mastered becoming what the room needs — and may have forgotten who she is when no one is watching. This spread strips away the performance and touches the real.</p>
+    </div>
+
+    <p class="cards-label">&#10022; Tap each card to reveal the question &#10022;</p>
+
+    <div class="cards-grid">
+        <div class="tarot-card" onclick="this.classList.toggle('revealed')">
+          <div class="card-roman">I</div>
+          <div class="card-position">The Mask</div>
+          <div class="card-front">&#10022; Touch to reveal</div>
+          <div class="card-back">What role am I currently performing, and what does it cost me to wear it?</div>
+        </div>
+        <div class="tarot-card" onclick="this.classList.toggle('revealed')">
+          <div class="card-roman">II</div>
+          <div class="card-position">The Goal</div>
+          <div class="card-front">&#10022; Touch to reveal</div>
+          <div class="card-back">Is what I'm striving toward truly mine — or am I chasing someone else's definition of success?</div>
+        </div>
+        <div class="tarot-card" onclick="this.classList.toggle('revealed')">
+          <div class="card-roman">III</div>
+          <div class="card-position">The Pause</div>
+          <div class="card-front">&#10022; Touch to reveal</div>
+          <div class="card-back">What does my heart say when the doing stops and the silence begins?</div>
+        </div>
+        <div class="tarot-card" onclick="this.classList.toggle('revealed')">
+          <div class="card-roman">IV</div>
+          <div class="card-position">The Real</div>
+          <div class="card-front">&#10022; Touch to reveal</div>
+          <div class="card-back">Who am I beneath the achievements — and what does she long for?</div>
+        </div>
+    </div>
+
+    <div class="intention">
+      <div class="intention-label">&#10022; Spread Intention</div>
+      <p class="intention-text">May I rest in the truth that I am worthy not for what I produce, but simply for who I am.</p>
+    </div>
+
+    <div class="footer-nav">
+      <a href="#spread-1" class="arrow-btn">&larr; Type 2</a>
+      <button class="reset-btn" onclick="resetCards(this)">Reset cards</button>
+      <a href="#spread-3" class="arrow-btn">Type 4 &rarr;</a>
+    </div>
+  </section>
+
+  <section class="spread" id="spread-3" style="display:none">
+    <div class="spread-header">
+      <div class="type-badge">Enneagram Type 4</div>
+      <div class="type-name">The Individualist</div>
+      <div class="spread-name">The Spread of the Longing Soul</div>
+      <p class="essence">For the one who feels everything with exquisite depth, who knows she is different, and who secretly wonders if she is too much — or never quite enough. This spread honors her unique frequency.</p>
+    </div>
+
+    <p class="cards-label">&#10022; Tap each card to reveal the question &#10022;</p>
+
+    <div class="cards-grid">
+        <div class="tarot-card" onclick="this.classList.toggle('revealed')">
+          <div class="card-roman">I</div>
+          <div class="card-position">The Longing</div>
+          <div class="card-front">&#10022; Touch to reveal</div>
+          <div class="card-back">What is the ache beneath the ache — what is my soul actually searching for?</div>
+        </div>
+        <div class="tarot-card" onclick="this.classList.toggle('revealed')">
+          <div class="card-roman">II</div>
+          <div class="card-position">The Story</div>
+          <div class="card-front">&#10022; Touch to reveal</div>
+          <div class="card-back">What narrative about my own life am I romanticizing, and what truth does it keep me from?</div>
+        </div>
+        <div class="tarot-card" onclick="this.classList.toggle('revealed')">
+          <div class="card-roman">III</div>
+          <div class="card-position">The Belonging</div>
+          <div class="card-front">&#10022; Touch to reveal</div>
+          <div class="card-back">Where do I already belong, even when I cannot feel it?</div>
+        </div>
+        <div class="tarot-card" onclick="this.classList.toggle('revealed')">
+          <div class="card-roman">IV</div>
+          <div class="card-position">The Expression</div>
+          <div class="card-front">&#10022; Touch to reveal</div>
+          <div class="card-back">What unique gift does the world lose if I keep it hidden inside my longing?</div>
+        </div>
+    </div>
+
+    <div class="intention">
+      <div class="intention-label">&#10022; Spread Intention</div>
+      <p class="intention-text">May I find beauty in my ordinariness as much as my depth, and know that I belong exactly as I am.</p>
+    </div>
+
+    <div class="footer-nav">
+      <a href="#spread-2" class="arrow-btn">&larr; Type 3</a>
+      <button class="reset-btn" onclick="resetCards(this)">Reset cards</button>
+      <a href="#spread-4" class="arrow-btn">Type 5 &rarr;</a>
+    </div>
+  </section>
+
+  <section class="spread" id="spread-4" style="display:none">
+    <div class="spread-header">
+      <div class="type-badge">Enneagram Type 5</div>
+      <div class="type-name">The Investigator</div>
+      <div class="spread-name">The Spread of the Witnessing Mind</div>
+      <p class="essence">For the one who observes the world from the safety of her inner library, collecting wisdom but sometimes holding back herself. This spread invites her from the archive into the living.</p>
+    </div>
+
+    <p class="cards-label">&#10022; Tap each card to reveal the question &#10022;</p>
+
+    <div class="cards-grid">
+        <div class="tarot-card" onclick="this.classList.toggle('revealed')">
+          <div class="card-roman">I</div>
+          <div class="card-position">The Retreat</div>
+          <div class="card-front">&#10022; Touch to reveal</div>
+          <div class="card-back">What am I withdrawing from, and what am I actually protecting myself from feeling?</div>
+        </div>
+        <div class="tarot-card" onclick="this.classList.toggle('revealed')">
+          <div class="card-roman">II</div>
+          <div class="card-position">The Knowledge</div>
+          <div class="card-front">&#10022; Touch to reveal</div>
+          <div class="card-back">What do I know in my mind that I haven't yet trusted in my body?</div>
+        </div>
+        <div class="tarot-card" onclick="this.classList.toggle('revealed')">
+          <div class="card-roman">III</div>
+          <div class="card-position">The Threshold</div>
+          <div class="card-front">&#10022; Touch to reveal</div>
+          <div class="card-back">Where is life inviting me to participate rather than observe?</div>
+        </div>
+        <div class="tarot-card" onclick="this.classList.toggle('revealed')">
+          <div class="card-roman">IV</div>
+          <div class="card-position">The Presence</div>
+          <div class="card-front">&#10022; Touch to reveal</div>
+          <div class="card-back">What becomes possible when I bring my full self into the room?</div>
+        </div>
+    </div>
+
+    <div class="intention">
+      <div class="intention-label">&#10022; Spread Intention</div>
+      <p class="intention-text">May I trust that my presence in the world is not a depletion but a gift, and that I have enough — I am enough.</p>
+    </div>
+
+    <div class="footer-nav">
+      <a href="#spread-3" class="arrow-btn">&larr; Type 4</a>
+      <button class="reset-btn" onclick="resetCards(this)">Reset cards</button>
+      <a href="#spread-5" class="arrow-btn">Type 6 &rarr;</a>
+    </div>
+  </section>
+
+  <section class="spread" id="spread-5" style="display:none">
+    <div class="spread-header">
+      <div class="type-badge">Enneagram Type 6</div>
+      <div class="type-name">The Loyalist</div>
+      <div class="spread-name">The Spread of the Faithful Heart</div>
+      <p class="essence">For the one who scans the horizon for what could go wrong, who loves fiercely and protects those she holds dear. This spread calls her home to the safety that lives within her own knowing.</p>
+    </div>
+
+    <p class="cards-label">&#10022; Tap each card to reveal the question &#10022;</p>
+
+    <div class="cards-grid">
+        <div class="tarot-card" onclick="this.classList.toggle('revealed')">
+          <div class="card-roman">I</div>
+          <div class="card-position">The Fear</div>
+          <div class="card-front">&#10022; Touch to reveal</div>
+          <div class="card-back">What worst case am I preparing for — and what is my fear asking me to believe about myself?</div>
+        </div>
+        <div class="tarot-card" onclick="this.classList.toggle('revealed')">
+          <div class="card-roman">II</div>
+          <div class="card-position">The Trust</div>
+          <div class="card-front">&#10022; Touch to reveal</div>
+          <div class="card-back">Where in my life have I already shown myself that I can handle what comes?</div>
+        </div>
+        <div class="tarot-card" onclick="this.classList.toggle('revealed')">
+          <div class="card-roman">III</div>
+          <div class="card-position">The Authority</div>
+          <div class="card-front">&#10022; Touch to reveal</div>
+          <div class="card-back">Where am I seeking outside permission for what my own inner voice has already told me?</div>
+        </div>
+        <div class="tarot-card" onclick="this.classList.toggle('revealed')">
+          <div class="card-roman">IV</div>
+          <div class="card-position">The Courage</div>
+          <div class="card-front">&#10022; Touch to reveal</div>
+          <div class="card-back">What brave and beautiful thing could I do if I trusted myself the way I trust those I love?</div>
+        </div>
+    </div>
+
+    <div class="intention">
+      <div class="intention-label">&#10022; Spread Intention</div>
+      <p class="intention-text">May I find the ground beneath my feet and trust the quiet voice inside that has always known the way.</p>
+    </div>
+
+    <div class="footer-nav">
+      <a href="#spread-4" class="arrow-btn">&larr; Type 5</a>
+      <button class="reset-btn" onclick="resetCards(this)">Reset cards</button>
+      <a href="#spread-6" class="arrow-btn">Type 7 &rarr;</a>
+    </div>
+  </section>
+
+  <section class="spread" id="spread-6" style="display:none">
+    <div class="spread-header">
+      <div class="type-badge">Enneagram Type 7</div>
+      <div class="type-name">The Enthusiast</div>
+      <div class="spread-name">The Spread of the Joyful Seeker</div>
+      <p class="essence">For the one who chases light, possibility, and the next great adventure — and who sometimes races past the treasure that lives in stillness. This spread invites the depth in.</p>
+    </div>
+
+    <p class="cards-label">&#10022; Tap each card to reveal the question &#10022;</p>
+
+    <div class="cards-grid">
+        <div class="tarot-card" onclick="this.classList.toggle('revealed')">
+          <div class="card-roman">I</div>
+          <div class="card-position">The Chase</div>
+          <div class="card-front">&#10022; Touch to reveal</div>
+          <div class="card-back">What am I running toward — and what am I running away from beneath it?</div>
+        </div>
+        <div class="tarot-card" onclick="this.classList.toggle('revealed')">
+          <div class="card-roman">II</div>
+          <div class="card-position">The Pleasure</div>
+          <div class="card-front">&#10022; Touch to reveal</div>
+          <div class="card-back">Where in my life is joy asking to be deepened rather than expanded?</div>
+        </div>
+        <div class="tarot-card" onclick="this.classList.toggle('revealed')">
+          <div class="card-roman">III</div>
+          <div class="card-position">The Stillness</div>
+          <div class="card-front">&#10022; Touch to reveal</div>
+          <div class="card-back">What gift is waiting for me in the present moment I keep moving past?</div>
+        </div>
+        <div class="tarot-card" onclick="this.classList.toggle('revealed')">
+          <div class="card-roman">IV</div>
+          <div class="card-position">The Enough</div>
+          <div class="card-front">&#10022; Touch to reveal</div>
+          <div class="card-back">What would it feel like to want exactly what I already have?</div>
+        </div>
+    </div>
+
+    <div class="intention">
+      <div class="intention-label">&#10022; Spread Intention</div>
+      <p class="intention-text">May I discover that the joy I seek is not ahead of me but within me, waiting in the quiet I have been afraid to meet.</p>
+    </div>
+
+    <div class="footer-nav">
+      <a href="#spread-5" class="arrow-btn">&larr; Type 6</a>
+      <button class="reset-btn" onclick="resetCards(this)">Reset cards</button>
+      <a href="#spread-7" class="arrow-btn">Type 8 &rarr;</a>
+    </div>
+  </section>
+
+  <section class="spread" id="spread-7" style="display:none">
+    <div class="spread-header">
+      <div class="type-badge">Enneagram Type 8</div>
+      <div class="type-name">The Challenger</div>
+      <div class="spread-name">The Spread of the Tender Warrior</div>
+      <p class="essence">For the one who carries great power, who fights for truth and protects the vulnerable — and who has sometimes armored the softest parts of herself to survive. This spread calls her power and tenderness home.</p>
+    </div>
+
+    <p class="cards-label">&#10022; Tap each card to reveal the question &#10022;</p>
+
+    <div class="cards-grid">
+        <div class="tarot-card" onclick="this.classList.toggle('revealed')">
+          <div class="card-roman">I</div>
+          <div class="card-position">The Armor</div>
+          <div class="card-front">&#10022; Touch to reveal</div>
+          <div class="card-back">What softness have I learned to hide, and what would happen if I let it be seen?</div>
+        </div>
+        <div class="tarot-card" onclick="this.classList.toggle('revealed')">
+          <div class="card-roman">II</div>
+          <div class="card-position">The Power</div>
+          <div class="card-front">&#10022; Touch to reveal</div>
+          <div class="card-back">Where am I using my strength as a shield rather than a gift?</div>
+        </div>
+        <div class="tarot-card" onclick="this.classList.toggle('revealed')">
+          <div class="card-roman">III</div>
+          <div class="card-position">The Surrender</div>
+          <div class="card-front">&#10022; Touch to reveal</div>
+          <div class="card-back">What is Spirit asking me to stop controlling, and what would that freedom feel like?</div>
+        </div>
+        <div class="tarot-card" onclick="this.classList.toggle('revealed')">
+          <div class="card-roman">IV</div>
+          <div class="card-position">The Heart</div>
+          <div class="card-front">&#10022; Touch to reveal</div>
+          <div class="card-back">What or who moves me to my core — and what does that tenderness reveal about my truest self?</div>
+        </div>
+    </div>
+
+    <div class="intention">
+      <div class="intention-label">&#10022; Spread Intention</div>
+      <p class="intention-text">May I know that my vulnerability is not weakness — it is the truest expression of the strength I carry.</p>
+    </div>
+
+    <div class="footer-nav">
+      <a href="#spread-6" class="arrow-btn">&larr; Type 7</a>
+      <button class="reset-btn" onclick="resetCards(this)">Reset cards</button>
+      <a href="#spread-8" class="arrow-btn">Type 9 &rarr;</a>
+    </div>
+  </section>
+
+  <section class="spread" id="spread-8" style="display:none">
+    <div class="spread-header">
+      <div class="type-badge">Enneagram Type 9</div>
+      <div class="type-name">The Peacemaker</div>
+      <div class="spread-name">The Spread of the Waking Soul</div>
+      <p class="essence">For the one who holds peace like a sacred vow, who can sense every current in the room but sometimes loses her own within it. This spread calls her back to her own precious presence.</p>
+    </div>
+
+    <p class="cards-label">&#10022; Tap each card to reveal the question &#10022;</p>
+
+    <div class="cards-grid">
+        <div class="tarot-card" onclick="this.classList.toggle('revealed')">
+          <div class="card-roman">I</div>
+          <div class="card-position">The Merge</div>
+          <div class="card-front">&#10022; Touch to reveal</div>
+          <div class="card-back">Where have I been disappearing into others' needs, and what of mine has gone unspoken?</div>
+        </div>
+        <div class="tarot-card" onclick="this.classList.toggle('revealed')">
+          <div class="card-roman">II</div>
+          <div class="card-position">The Voice</div>
+          <div class="card-front">&#10022; Touch to reveal</div>
+          <div class="card-back">What do I want — not what would make things easier, but what do I truly, quietly want?</div>
+        </div>
+        <div class="tarot-card" onclick="this.classList.toggle('revealed')">
+          <div class="card-roman">III</div>
+          <div class="card-position">The Awakening</div>
+          <div class="card-front">&#10022; Touch to reveal</div>
+          <div class="card-back">Where in my life is Spirit nudging me to stop settling and start choosing?</div>
+        </div>
+        <div class="tarot-card" onclick="this.classList.toggle('revealed')">
+          <div class="card-roman">IV</div>
+          <div class="card-position">The Presence</div>
+          <div class="card-front">&#10022; Touch to reveal</div>
+          <div class="card-back">What becomes possible for the world when I stop shrinking and let myself take up space?</div>
+        </div>
+    </div>
+
+    <div class="intention">
+      <div class="intention-label">&#10022; Spread Intention</div>
+      <p class="intention-text">May I remember that my presence is not a disruption to the peace — it is the peace, made whole.</p>
+    </div>
+
+    <div class="footer-nav">
+      <a href="#spread-7" class="arrow-btn">&larr; Type 8</a>
+      <button class="reset-btn" onclick="resetCards(this)">Reset cards</button>
+      <span class="arrow-btn disabled"></span>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">TheTypedTarot &nbsp;&#10022;&nbsp; Where personality meets prophecy</footer>
 
 <script>
-const spreads = [
-  {
-    n:1, name:"The Reformer", spreadName:"The Spread of Sacred Standards",
-    essence:"For the one who holds the world to a higher standard — and quietly holds herself to an even higher one. This spread invites release of the inner critic and trust in the wisdom of imperfection.",
-    intention:"May I release the grip of perfection and remember that goodness lives in the becoming, not only the being done.",
-    cards:[
-      {pos:"The Standard", q:"Where am I holding myself to an impossible ideal, and what truth lives beneath that pressure?"},
-      {pos:"The Critic",   q:"What is my inner critic trying to protect me from — and is that protection still serving me?"},
-      {pos:"The Reform",   q:"Where in my life is growth asking me to soften rather than straighten?"},
-      {pos:"The Grace",    q:"What would I allow myself if I truly believed I was already enough?"}
-    ]
-  },
-  {
-    n:2, name:"The Helper", spreadName:"The Spread of the Giving Heart",
-    essence:"For the one who pours endlessly from her cup, often forgetting to refill it. This spread calls her back to herself — her needs, her wants, her worth beyond what she gives.",
-    intention:"May I turn my loving hands toward myself, trusting that my needs are not a burden but a birthright.",
-    cards:[
-      {pos:"The Gift",        q:"What am I giving from love — and what am I giving from fear of not being loved?"},
-      {pos:"The Hidden Need", q:"What do I most need right now that I haven't allowed myself to ask for?"},
-      {pos:"The Boundary",    q:"Where is Spirit inviting me to receive instead of give?"},
-      {pos:"The Worth",       q:"What would I know about my own value if I stopped measuring it through others?"}
-    ]
-  },
-  {
-    n:3, name:"The Achiever", spreadName:"The Spread of the Authentic Self",
-    essence:"For the one who has mastered becoming what the room needs — and may have forgotten who she is when no one is watching. This spread strips away the performance and touches the real.",
-    intention:"May I rest in the truth that I am worthy not for what I produce, but simply for who I am.",
-    cards:[
-      {pos:"The Mask",  q:"What role am I currently performing, and what does it cost me to wear it?"},
-      {pos:"The Goal",  q:"Is what I'm striving toward truly mine — or am I chasing someone else's definition of success?"},
-      {pos:"The Pause", q:"What does my heart say when the doing stops and the silence begins?"},
-      {pos:"The Real",  q:"Who am I beneath the achievements — and what does she long for?"}
-    ]
-  },
-  {
-    n:4, name:"The Individualist", spreadName:"The Spread of the Longing Soul",
-    essence:"For the one who feels everything with exquisite depth, who knows she is different, and who secretly wonders if she is too much — or never quite enough. This spread honors her unique frequency.",
-    intention:"May I find beauty in my ordinariness as much as my depth, and know that I belong exactly as I am.",
-    cards:[
-      {pos:"The Longing",    q:"What is the ache beneath the ache — what is my soul actually searching for?"},
-      {pos:"The Story",      q:"What narrative about my own life am I romanticizing, and what truth does it keep me from?"},
-      {pos:"The Belonging",  q:"Where do I already belong, even when I cannot feel it?"},
-      {pos:"The Expression", q:"What unique gift does the world lose if I keep it hidden inside my longing?"}
-    ]
-  },
-  {
-    n:5, name:"The Investigator", spreadName:"The Spread of the Witnessing Mind",
-    essence:"For the one who observes the world from the safety of her inner library, collecting wisdom but sometimes holding back herself. This spread invites her from the archive into the living.",
-    intention:"May I trust that my presence in the world is not a depletion but a gift, and that I have enough — I am enough.",
-    cards:[
-      {pos:"The Retreat",   q:"What am I withdrawing from, and what am I actually protecting myself from feeling?"},
-      {pos:"The Knowledge", q:"What do I know in my mind that I haven't yet trusted in my body?"},
-      {pos:"The Threshold", q:"Where is life inviting me to participate rather than observe?"},
-      {pos:"The Presence",  q:"What becomes possible when I bring my full self into the room?"}
-    ]
-  },
-  {
-    n:6, name:"The Loyalist", spreadName:"The Spread of the Faithful Heart",
-    essence:"For the one who scans the horizon for what could go wrong, who loves fiercely and protects those she holds dear. This spread calls her home to the safety that lives within her own knowing.",
-    intention:"May I find the ground beneath my feet and trust the quiet voice inside that has always known the way.",
-    cards:[
-      {pos:"The Fear",      q:"What worst case am I preparing for — and what is my fear asking me to believe about myself?"},
-      {pos:"The Trust",     q:"Where in my life have I already shown myself that I can handle what comes?"},
-      {pos:"The Authority", q:"Where am I seeking outside permission for what my own inner voice has already told me?"},
-      {pos:"The Courage",   q:"What brave and beautiful thing could I do if I trusted myself the way I trust those I love?"}
-    ]
-  },
-  {
-    n:7, name:"The Enthusiast", spreadName:"The Spread of the Joyful Seeker",
-    essence:"For the one who chases light, possibility, and the next great adventure — and who sometimes races past the treasure that lives in stillness. This spread invites the depth in.",
-    intention:"May I discover that the joy I seek is not ahead of me but within me, waiting in the quiet I have been afraid to meet.",
-    cards:[
-      {pos:"The Chase",     q:"What am I running toward — and what am I running away from beneath it?"},
-      {pos:"The Pleasure",  q:"Where in my life is joy asking to be deepened rather than expanded?"},
-      {pos:"The Stillness", q:"What gift is waiting for me in the present moment I keep moving past?"},
-      {pos:"The Enough",    q:"What would it feel like to want exactly what I already have?"}
-    ]
-  },
-  {
-    n:8, name:"The Challenger", spreadName:"The Spread of the Tender Warrior",
-    essence:"For the one who carries great power, who fights for truth and protects the vulnerable — and who has sometimes armored the softest parts of herself to survive. This spread calls her power and tenderness home.",
-    intention:"May I know that my vulnerability is not weakness — it is the truest expression of the strength I carry.",
-    cards:[
-      {pos:"The Armor",     q:"What softness have I learned to hide, and what would happen if I let it be seen?"},
-      {pos:"The Power",     q:"Where am I using my strength as a shield rather than a gift?"},
-      {pos:"The Surrender", q:"What is Spirit asking me to stop controlling, and what would that freedom feel like?"},
-      {pos:"The Heart",     q:"What or who moves me to my core — and what does that tenderness reveal about my truest self?"}
-    ]
-  },
-  {
-    n:9, name:"The Peacemaker", spreadName:"The Spread of the Waking Soul",
-    essence:"For the one who holds peace like a sacred vow, who can sense every current in the room but sometimes loses her own within it. This spread calls her back to her own precious presence.",
-    intention:"May I remember that my presence is not a disruption to the peace — it is the peace, made whole.",
-    cards:[
-      {pos:"The Merge",     q:"Where have I been disappearing into others' needs, and what of mine has gone unspoken?"},
-      {pos:"The Voice",     q:"What do I want — not what would make things easier, but what do I truly, quietly want?"},
-      {pos:"The Awakening", q:"Where in my life is Spirit nudging me to stop settling and start choosing?"},
-      {pos:"The Presence",  q:"What becomes possible for the world when I stop shrinking and let myself take up space?"}
-    ]
-  }
-];
+// Nav: highlight active section on click and show/hide spreads
+var navBtns = document.querySelectorAll('.nav-btn');
+var sections = document.querySelectorAll('.spread');
 
-const romans = ['I','II','III','IV'];
-let current = 0;
-const revealed = Array.from({length:9}, () => [false,false,false,false]);
+navBtns.forEach(function(btn, i) {
+  btn.addEventListener('click', function(e) {
+    e.preventDefault();
+    navBtns.forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    sections.forEach(function(s) { s.style.display = 'none'; });
+    sections[i].style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
 
-function buildNav() {
-  const nav = document.getElementById('typeNav');
-  nav.innerHTML = spreads.map((s,i) =>
-    `<button class="nav-btn${i===current?' active':''}" onclick="goTo(${i})">Type ${s.n} · ${s.name}</button>`
-  ).join('');
-}
+// Footer prev/next arrows
+document.querySelectorAll('.arrow-btn:not(.disabled)').forEach(function(btn) {
+  btn.addEventListener('click', function(e) {
+    e.preventDefault();
+    var href = btn.getAttribute('href');
+    if (!href) return;
+    var idx = parseInt(href.replace('#spread-', ''), 10);
+    if (isNaN(idx)) return;
+    navBtns.forEach(function(b) { b.classList.remove('active'); });
+    navBtns[idx].classList.add('active');
+    sections.forEach(function(s) { s.style.display = 'none'; });
+    sections[idx].style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
 
-function buildMain() {
-  const main = document.getElementById('main');
-  main.innerHTML = spreads.map((s,i) => `
-    <section class="spread${i===current?' active':''}" id="spread-${i}" aria-label="Type ${s.n} ${s.name}">
-
-      <div class="spread-header">
-        <div class="type-badge">Enneagram Type ${s.n}</div>
-        <div class="type-name">${s.name}</div>
-        <div class="spread-name">${s.spreadName}</div>
-        <p class="essence">${s.essence}</p>
-      </div>
-
-      <p class="cards-label">✦ Tap each card to reveal the question ✦</p>
-
-      <div class="cards-grid">
-        ${s.cards.map((c,ci) => `
-          <div class="tarot-card${revealed[i][ci]?' revealed':''}"
-               id="tc-${i}-${ci}"
-               onclick="flipCard(${i},${ci})"
-               role="button"
-               tabindex="0"
-               aria-label="${c.pos}"
-               onkeydown="if(event.key==='Enter'||event.key===' ')flipCard(${i},${ci})">
-            <div class="card-roman">${romans[ci]}</div>
-            <div class="card-position">${c.pos}</div>
-            <div class="card-question" id="cq-${i}-${ci}">${revealed[i][ci] ? c.q : 'Touch to reveal'}</div>
-            <div class="card-prompt" id="cp-${i}-${ci}">${revealed[i][ci] ? '' : '✦'}</div>
-          </div>
-        `).join('')}
-      </div>
-
-      <div class="intention">
-        <div class="intention-label">✦ Spread Intention</div>
-        <p class="intention-text">${s.intention}</p>
-      </div>
-
-      <div class="footer-nav">
-        <button class="arrow-btn" onclick="goTo(${i-1})" ${i===0?'disabled':''}>← Type ${i>0?i:''}</button>
-        <button class="reset-btn" onclick="resetSpread(${i})">Reset cards</button>
-        <button class="arrow-btn right" onclick="goTo(${i+1})" ${i===8?'disabled':''}>Type ${i<8?i+2:''} →</button>
-      </div>
-
-    </section>
-  `).join('');
-}
-
-function goTo(idx) {
-  if (idx < 0 || idx > 8) return;
-  current = idx;
-  buildNav();
-  buildMain();
-  window.scrollTo({top: 0, behavior: 'smooth'});
-}
-
-function flipCard(si, ci) {
-  revealed[si][ci] = !revealed[si][ci];
-  const card = document.getElementById(`tc-${si}-${ci}`);
-  const qEl  = document.getElementById(`cq-${si}-${ci}`);
-  const pEl  = document.getElementById(`cp-${si}-${ci}`);
-  if (revealed[si][ci]) {
-    card.classList.add('revealed');
-    qEl.textContent = spreads[si].cards[ci].q;
-    pEl.textContent = '';
-  } else {
+// Reset cards in a spread
+function resetCards(btn) {
+  var section = btn.closest('.spread');
+  section.querySelectorAll('.tarot-card').forEach(function(card) {
     card.classList.remove('revealed');
-    qEl.textContent = 'Touch to reveal';
-    pEl.textContent = '✦';
-  }
+  });
 }
-
-function resetSpread(si) {
-  revealed[si] = [false,false,false,false];
-  buildMain();
-}
-
-buildNav();
-buildMain();
 </script>
 </body>
 </html>
