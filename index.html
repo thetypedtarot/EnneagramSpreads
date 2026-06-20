@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TheTypedTarot — Enneagram Spreads</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --parchment:   #E3DFD0;
+    --parchment-lt:#F5F0EB;
+    --parchment-xl:#FBF7F2;
+    --ink:         #2C2621;
+    --ink-mid:     #6A5848;
+    --moss:        #5B6655;
+    --amber:       #C28A46;
+    --amber-lt:    rgba(194,138,70,0.18);
+    --cedar:       #6A5848;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--parchment);
+    color: var(--ink);
+    font-family: 'Lora', serif;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .site-header {
+    text-align: center;
+    padding: 3rem 1.5rem 2rem;
+    border-bottom: 1px solid rgba(194,138,70,0.25);
+    position: relative;
+  }
+
+  .site-header::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 1px;
+    background: var(--amber);
+    margin: 0 auto;
+    opacity: 0.4;
+  }
+
+  .brand-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 300;
+    letter-spacing: 0.12em;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+
+  .brand-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    color: var(--amber);
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+  }
+
+  .rule {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 280px;
+    margin: 0 auto 1rem;
+  }
+  .rule-line { flex: 1; height: 1px; background: var(--amber); opacity: 0.35; }
+  .rule-gem  { color: var(--amber); font-size: 0.55rem; }
+
+  .page-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    font-weight: 400;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--moss);
+    margin-bottom: 0.3rem;
+  }
+
+  .page-sub {
+    font-size: 0.8rem;
+    color: var(--ink-mid);
+    font-style: italic;
+  }
+
+  /* ── NAV ── */
+  .type-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 7px;
+    padding: 1.5rem 1.5rem 0;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .nav-btn {
+    font-family: 'Lora', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    padding: 6px 15px;
+    border: 1px solid rgba(194,138,70,0.45);
+    background: transparent;
+    color: var(--ink-mid);
+    cursor: pointer;
+    transition: all 0.18s ease;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+  .nav-btn:hover  { background: var(--amber-lt); color: var(--ink); border-color: var(--amber); }
+  .nav-btn.active { background: var(--moss); color: var(--parchment-lt); border-color: var(--moss); }
+
+  /* ── MAIN LAYOUT ── */
+  .main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  /* ── SPREAD PANEL ── */
+  .spread { display: none; }
+  .spread.active { display: block; }
+
+  .spread-header {
+    background: var(--parchment-lt);
+    border: 1px solid rgba(194,138,70,0.28);
+    border-top: 3px solid var(--moss);
+    border-radius: 3px;
+    padding: 1.75rem 2rem 1.5rem;
+    margin-bottom: 1.25rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .spread-header::before {
+    content: '✦';
+    position: absolute;
+    bottom: 14px; right: 18px;
+    color: rgba(194,138,70,0.15);
+    font-size: 2rem;
+    line-height: 1;
+  }
+
+  .type-badge {
+    font-size: 0.6rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 4px;
+  }
+
+  .type-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    font-weight: 300;
+    color: var(--ink);
+    line-height: 1.1;
+  }
+
+  .spread-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--amber);
+    margin: 4px 0 12px;
+  }
+
+  .essence {
+    font-size: 0.83rem;
+    color: var(--ink-mid);
+    line-height: 1.8;
+    font-style: italic;
+    max-width: 600px;
+  }
+
+  /* ── CARDS SECTION ── */
+  .cards-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--moss);
+    text-align: center;
+    margin: 0 0 0.9rem;
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0,1fr));
+    gap: 12px;
+    margin-bottom: 1.25rem;
+  }
+
+  @media (max-width: 580px) {
+    .cards-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  }
+
+  .tarot-card {
+    background: var(--parchment-lt);
+    border: 1px solid rgba(194,138,70,0.3);
+    border-radius: 3px;
+    padding: 1.1rem 0.8rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.18s, background 0.18s, transform 0.15s;
+    user-select: none;
+  }
+  .tarot-card:hover       { border-color: var(--amber); background: var(--parchment-xl); }
+  .tarot-card:active      { transform: scale(0.97); }
+  .tarot-card.revealed    { background: var(--moss); border-color: var(--moss); }
+
+  .card-roman {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    font-weight: 300;
+    color: var(--amber);
+    line-height: 1;
+    margin-bottom: 7px;
+    transition: color 0.18s;
+  }
+  .tarot-card.revealed .card-roman { color: rgba(227,223,208,0.55); }
+
+  .card-position {
+    font-size: 0.62rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--moss);
+    margin-bottom: 9px;
+    line-height: 1.3;
+    transition: color 0.18s;
+  }
+  .tarot-card.revealed .card-position { color: rgba(227,223,208,0.75); }
+
+  .card-question {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--ink);
+    line-height: 1.55;
+    transition: color 0.18s;
+    min-height: 3.5em;
+  }
+  .tarot-card.revealed .card-question { color: var(--parchment); }
+
+  .card-prompt {
+    font-size: 0.6rem;
+    color: rgba(194,138,70,0.5);
+    margin-top: 8px;
+    letter-spacing: 0.06em;
+    transition: opacity 0.18s;
+  }
+  .tarot-card.revealed .card-prompt { opacity: 0; }
+
+  /* ── INTENTION ── */
+  .intention {
+    background: var(--parchment);
+    border-left: 2px solid var(--amber);
+    padding: 1rem 1.25rem;
+    border-radius: 0 3px 3px 0;
+  }
+
+  .intention-label {
+    font-size: 0.58rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 5px;
+  }
+
+  .intention-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--ink);
+    line-height: 1.7;
+  }
+
+  /* ── FOOTER NAV ── */
+  .footer-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(194,138,70,0.18);
+  }
+
+  .arrow-btn {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--moss);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.18s;
+    padding: 4px 0;
+    min-width: 80px;
+  }
+  .arrow-btn:hover    { color: var(--amber); }
+  .arrow-btn:disabled { opacity: 0.2; cursor: default; }
+  .arrow-btn.right    { text-align: right; }
+
+  .reset-btn {
+    font-family: 'Lora', serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    color: rgba(194,138,70,0.65);
+    background: none;
+    border: 1px solid rgba(194,138,70,0.3);
+    padding: 5px 14px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+  .reset-btn:hover { color: var(--amber); border-color: var(--amber); }
+
+  /* ── FOOTER ── */
+  .site-footer {
+    text-align: center;
+    padding: 1.5rem;
+    border-top: 1px solid rgba(194,138,70,0.18);
+    font-size: 0.72rem;
+    color: rgba(106,88,72,0.5);
+    font-style: italic;
+    letter-spacing: 0.05em;
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand-name">TheTypedTarot</div>
+  <div class="brand-tagline">Where personality meets prophecy</div>
+  <div class="rule"><div class="rule-line"></div><div class="rule-gem">✦</div><div class="rule-line"></div></div>
+  <div class="page-heading">Enneagram Tarot Spreads</div>
+  <div class="page-sub">A signature 4-card spread for each of the nine types</div>
+</header>
+
+<nav class="type-nav" aria-label="Enneagram types" id="typeNav"></nav>
+
+<main class="main" id="main"></main>
+
+<footer class="site-footer">TheTypedTarot &nbsp;✦&nbsp; Where personality meets prophecy</footer>
+
+<script>
+const spreads = [
+  {
+    n:1, name:"The Reformer", spreadName:"The Spread of Sacred Standards",
+    essence:"For the one who holds the world to a higher standard — and quietly holds herself to an even higher one. This spread invites release of the inner critic and trust in the wisdom of imperfection.",
+    intention:"May I release the grip of perfection and remember that goodness lives in the becoming, not only the being done.",
+    cards:[
+      {pos:"The Standard", q:"Where am I holding myself to an impossible ideal, and what truth lives beneath that pressure?"},
+      {pos:"The Critic",   q:"What is my inner critic trying to protect me from — and is that protection still serving me?"},
+      {pos:"The Reform",   q:"Where in my life is growth asking me to soften rather than straighten?"},
+      {pos:"The Grace",    q:"What would I allow myself if I truly believed I was already enough?"}
+    ]
+  },
+  {
+    n:2, name:"The Helper", spreadName:"The Spread of the Giving Heart",
+    essence:"For the one who pours endlessly from her cup, often forgetting to refill it. This spread calls her back to herself — her needs, her wants, her worth beyond what she gives.",
+    intention:"May I turn my loving hands toward myself, trusting that my needs are not a burden but a birthright.",
+    cards:[
+      {pos:"The Gift",        q:"What am I giving from love — and what am I giving from fear of not being loved?"},
+      {pos:"The Hidden Need", q:"What do I most need right now that I haven't allowed myself to ask for?"},
+      {pos:"The Boundary",    q:"Where is Spirit inviting me to receive instead of give?"},
+      {pos:"The Worth",       q:"What would I know about my own value if I stopped measuring it through others?"}
+    ]
+  },
+  {
+    n:3, name:"The Achiever", spreadName:"The Spread of the Authentic Self",
+    essence:"For the one who has mastered becoming what the room needs — and may have forgotten who she is when no one is watching. This spread strips away the performance and touches the real.",
+    intention:"May I rest in the truth that I am worthy not for what I produce, but simply for who I am.",
+    cards:[
+      {pos:"The Mask",  q:"What role am I currently performing, and what does it cost me to wear it?"},
+      {pos:"The Goal",  q:"Is what I'm striving toward truly mine — or am I chasing someone else's definition of success?"},
+      {pos:"The Pause", q:"What does my heart say when the doing stops and the silence begins?"},
+      {pos:"The Real",  q:"Who am I beneath the achievements — and what does she long for?"}
+    ]
+  },
+  {
+    n:4, name:"The Individualist", spreadName:"The Spread of the Longing Soul",
+    essence:"For the one who feels everything with exquisite depth, who knows she is different, and who secretly wonders if she is too much — or never quite enough. This spread honors her unique frequency.",
+    intention:"May I find beauty in my ordinariness as much as my depth, and know that I belong exactly as I am.",
+    cards:[
+      {pos:"The Longing",    q:"What is the ache beneath the ache — what is my soul actually searching for?"},
+      {pos:"The Story",      q:"What narrative about my own life am I romanticizing, and what truth does it keep me from?"},
+      {pos:"The Belonging",  q:"Where do I already belong, even when I cannot feel it?"},
+      {pos:"The Expression", q:"What unique gift does the world lose if I keep it hidden inside my longing?"}
+    ]
+  },
+  {
+    n:5, name:"The Investigator", spreadName:"The Spread of the Witnessing Mind",
+    essence:"For the one who observes the world from the safety of her inner library, collecting wisdom but sometimes holding back herself. This spread invites her from the archive into the living.",
+    intention:"May I trust that my presence in the world is not a depletion but a gift, and that I have enough — I am enough.",
+    cards:[
+      {pos:"The Retreat",   q:"What am I withdrawing from, and what am I actually protecting myself from feeling?"},
+      {pos:"The Knowledge", q:"What do I know in my mind that I haven't yet trusted in my body?"},
+      {pos:"The Threshold", q:"Where is life inviting me to participate rather than observe?"},
+      {pos:"The Presence",  q:"What becomes possible when I bring my full self into the room?"}
+    ]
+  },
+  {
+    n:6, name:"The Loyalist", spreadName:"The Spread of the Faithful Heart",
+    essence:"For the one who scans the horizon for what could go wrong, who loves fiercely and protects those she holds dear. This spread calls her home to the safety that lives within her own knowing.",
+    intention:"May I find the ground beneath my feet and trust the quiet voice inside that has always known the way.",
+    cards:[
+      {pos:"The Fear",      q:"What worst case am I preparing for — and what is my fear asking me to believe about myself?"},
+      {pos:"The Trust",     q:"Where in my life have I already shown myself that I can handle what comes?"},
+      {pos:"The Authority", q:"Where am I seeking outside permission for what my own inner voice has already told me?"},
+      {pos:"The Courage",   q:"What brave and beautiful thing could I do if I trusted myself the way I trust those I love?"}
+    ]
+  },
+  {
+    n:7, name:"The Enthusiast", spreadName:"The Spread of the Joyful Seeker",
+    essence:"For the one who chases light, possibility, and the next great adventure — and who sometimes races past the treasure that lives in stillness. This spread invites the depth in.",
+    intention:"May I discover that the joy I seek is not ahead of me but within me, waiting in the quiet I have been afraid to meet.",
+    cards:[
+      {pos:"The Chase",     q:"What am I running toward — and what am I running away from beneath it?"},
+      {pos:"The Pleasure",  q:"Where in my life is joy asking to be deepened rather than expanded?"},
+      {pos:"The Stillness", q:"What gift is waiting for me in the present moment I keep moving past?"},
+      {pos:"The Enough",    q:"What would it feel like to want exactly what I already have?"}
+    ]
+  },
+  {
+    n:8, name:"The Challenger", spreadName:"The Spread of the Tender Warrior",
+    essence:"For the one who carries great power, who fights for truth and protects the vulnerable — and who has sometimes armored the softest parts of herself to survive. This spread calls her power and tenderness home.",
+    intention:"May I know that my vulnerability is not weakness — it is the truest expression of the strength I carry.",
+    cards:[
+      {pos:"The Armor",     q:"What softness have I learned to hide, and what would happen if I let it be seen?"},
+      {pos:"The Power",     q:"Where am I using my strength as a shield rather than a gift?"},
+      {pos:"The Surrender", q:"What is Spirit asking me to stop controlling, and what would that freedom feel like?"},
+      {pos:"The Heart",     q:"What or who moves me to my core — and what does that tenderness reveal about my truest self?"}
+    ]
+  },
+  {
+    n:9, name:"The Peacemaker", spreadName:"The Spread of the Waking Soul",
+    essence:"For the one who holds peace like a sacred vow, who can sense every current in the room but sometimes loses her own within it. This spread calls her back to her own precious presence.",
+    intention:"May I remember that my presence is not a disruption to the peace — it is the peace, made whole.",
+    cards:[
+      {pos:"The Merge",     q:"Where have I been disappearing into others' needs, and what of mine has gone unspoken?"},
+      {pos:"The Voice",     q:"What do I want — not what would make things easier, but what do I truly, quietly want?"},
+      {pos:"The Awakening", q:"Where in my life is Spirit nudging me to stop settling and start choosing?"},
+      {pos:"The Presence",  q:"What becomes possible for the world when I stop shrinking and let myself take up space?"}
+    ]
+  }
+];
+
+const romans = ['I','II','III','IV'];
+let current = 0;
+const revealed = Array.from({length:9}, () => [false,false,false,false]);
+
+function buildNav() {
+  const nav = document.getElementById('typeNav');
+  nav.innerHTML = spreads.map((s,i) =>
+    `<button class="nav-btn${i===current?' active':''}" onclick="goTo(${i})">Type ${s.n} · ${s.name}</button>`
+  ).join('');
+}
+
+function buildMain() {
+  const main = document.getElementById('main');
+  main.innerHTML = spreads.map((s,i) => `
+    <section class="spread${i===current?' active':''}" id="spread-${i}" aria-label="Type ${s.n} ${s.name}">
+
+      <div class="spread-header">
+        <div class="type-badge">Enneagram Type ${s.n}</div>
+        <div class="type-name">${s.name}</div>
+        <div class="spread-name">${s.spreadName}</div>
+        <p class="essence">${s.essence}</p>
+      </div>
+
+      <p class="cards-label">✦ Tap each card to reveal the question ✦</p>
+
+      <div class="cards-grid">
+        ${s.cards.map((c,ci) => `
+          <div class="tarot-card${revealed[i][ci]?' revealed':''}"
+               id="tc-${i}-${ci}"
+               onclick="flipCard(${i},${ci})"
+               role="button"
+               tabindex="0"
+               aria-label="${c.pos}"
+               onkeydown="if(event.key==='Enter'||event.key===' ')flipCard(${i},${ci})">
+            <div class="card-roman">${romans[ci]}</div>
+            <div class="card-position">${c.pos}</div>
+            <div class="card-question" id="cq-${i}-${ci}">${revealed[i][ci] ? c.q : 'Touch to reveal'}</div>
+            <div class="card-prompt" id="cp-${i}-${ci}">${revealed[i][ci] ? '' : '✦'}</div>
+          </div>
+        `).join('')}
+      </div>
+
+      <div class="intention">
+        <div class="intention-label">✦ Spread Intention</div>
+        <p class="intention-text">${s.intention}</p>
+      </div>
+
+      <div class="footer-nav">
+        <button class="arrow-btn" onclick="goTo(${i-1})" ${i===0?'disabled':''}>← Type ${i>0?i:''}</button>
+        <button class="reset-btn" onclick="resetSpread(${i})">Reset cards</button>
+        <button class="arrow-btn right" onclick="goTo(${i+1})" ${i===8?'disabled':''}>Type ${i<8?i+2:''} →</button>
+      </div>
+
+    </section>
+  `).join('');
+}
+
+function goTo(idx) {
+  if (idx < 0 || idx > 8) return;
+  current = idx;
+  buildNav();
+  buildMain();
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function flipCard(si, ci) {
+  revealed[si][ci] = !revealed[si][ci];
+  const card = document.getElementById(`tc-${si}-${ci}`);
+  const qEl  = document.getElementById(`cq-${si}-${ci}`);
+  const pEl  = document.getElementById(`cp-${si}-${ci}`);
+  if (revealed[si][ci]) {
+    card.classList.add('revealed');
+    qEl.textContent = spreads[si].cards[ci].q;
+    pEl.textContent = '';
+  } else {
+    card.classList.remove('revealed');
+    qEl.textContent = 'Touch to reveal';
+    pEl.textContent = '✦';
+  }
+}
+
+function resetSpread(si) {
+  revealed[si] = [false,false,false,false];
+  buildMain();
+}
+
+buildNav();
+buildMain();
+</script>
+</body>
+</html>
